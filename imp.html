@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CompX Store</title>
+
+  <!-- fonts (only keeping one main, will add more if needed later) -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* quick reset */
+    * {margin:0; padding:0; box-sizing:border-box;}
+
+    body {
+      background:#111;
+      color:#eee;
+      font-family: 'Montserrat', sans-serif;
+      line-height:1.5;
+    }
+
+    .wrap {
+      max-width:1200px;
+      margin:auto;
+      padding:0 15px;
+    }
+
+    /* header */
+    header {
+      background:#000;
+      padding:12px 0;
+      border-bottom:1px solid #222;
+    }
+    .head-bar {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .brand {
+      font-size:1.8rem;
+      font-weight:700;
+      text-decoration:none;
+      color:#fff;
+    }
+    .brand span {color:#e33;}
+
+    nav ul {
+      list-style:none;
+      display:flex;
+      align-items:center;
+    }
+    nav li {margin-left:20px;}
+    nav a {
+      text-decoration:none;
+      color:#eee;
+      transition:.2s;
+    }
+    nav a:hover {color:#e33;}
+
+    /* Signup Button */
+    .signup-btn {
+      background: transparent;
+      color: #e33;
+      border: 2px solid #e33;
+      padding: 8px 18px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-left: 15px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .signup-btn:hover {
+      background: #e33;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(227, 51, 51, 0.3);
+    }
+
+    /* hero section */
+    .hero {
+      height:460px;
+      background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)), url('Img/1.jpg') center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      margin-bottom:50px;
+    }
+    .hero-text {
+      max-width:550px;
+      margin-left:40px;
+    }
+    .hero-text h1 {
+      font-size:3.5rem;
+      font-weight:700;
+      margin-bottom:15px;
+      text-transform:uppercase;
+    }
+    .hero-text h1 .red {color:#e33;}
+    .hero-text p {
+      color:#bbb;
+      margin-bottom:20px;
+    }
+    .btn {
+      background:#e33;
+      color:#fff;
+      padding:10px 24px;
+      text-decoration:none;
+      border-radius:4px;
+      font-weight:600;
+      transition:.2s;
+    }
+    .btn:hover {background:#b11;}
+
+    /* products */
+    .products {
+      padding:40px 0;
+    }
+    .products h2 {
+      text-align:center;
+      margin-bottom:30px;
+      font-size:2rem;
+    }
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+      gap:25px;
+    }
+    .item {
+      background:#1a1a1a;
+      border-radius:6px;
+      overflow:hidden;
+      transition:.2s;
+      position:relative;
+    }
+    .item:hover {transform:translateY(-4px);}
+    .item img {
+      width:100%;
+      height:180px;
+      object-fit:cover;
+      border-bottom:1px solid #333;
+    }
+    .info {padding:15px;}
+    .info h3 {margin-bottom:10px; font-size:1.2rem;}
+    .info p {color:#aaa; font-size:.9rem; margin-bottom:12px;}
+    .price {color:#e33; font-weight:700; margin-bottom:10px;}
+    .cart-btn {
+      background:#e33;
+      color:#fff;
+      border:none;
+      padding:8px 15px;
+      width:100%;
+      border-radius:4px;
+      cursor:pointer;
+    }
+    .cart-btn:hover {background:#b11;}
+
+    /* footer */
+    footer {
+      background:#000;
+      padding:30px 0;
+      margin-top:40px;
+      border-top:1px solid #222;
+    }
+    .foot {
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      gap:20px;
+    }
+    .foot-section {flex:1; min-width:200px;}
+    .foot-section h4 {margin-bottom:15px; font-size:1rem;}
+    .foot-section a {
+      display:block;
+      color:#aaa;
+      text-decoration:none;
+      margin-bottom:8px;
+      font-size:.9rem;
+    }
+    .foot-section a:hover {color:#e33;}
+    .copy {
+      text-align:center;
+      margin-top:20px;
+      font-size:.8rem;
+      color:#666;
+    }
+    .cart-btn a{
+      color:#fff;
+      text-decoration: none;
+    }
+
+    /* smaller screens */
+    @media (max-width:768px){
+      .hero-text {margin-left:15px; text-align:center;}
+      .hero-text h1 {font-size:2.4rem;}
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      nav li {
+        margin: 5px 10px;
+      }
+      .signup-btn {
+        margin-left: 10px;
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap head-bar">
+    <a href="#" class="brand">Comp<span>X</span></a>
+    <nav>
+      <ul>
+        <li><a href="#">Components</a></li>
+        <li><a href="#">Deals</a></li>
+        <li><a href="#">Builds</a></li>
+        <li><a href="#">Support</a></li>
+        <li><button class="signup-btn" onclick="openSignup()">Sign Up</button></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <h1><span class="red">Unleash</span> the Power</h1>
+    <p>High-performance parts for gamers & creators. Build your dream PC today.</p>
+    <a href="#" class="btn" onclick="scrollToProducts()">Shop Now</a>
+  </div>
+</section>
+
+<section class="products wrap">
+  <h2>Latest <span style="color:#e33">Products</span></h2>
+  <div class="grid">
+    <div class="item">
+      <img src="Img/5090.png" alt="RTX 5090">
+      <div class="info">
+        <h3>NVIDIA RTX 5090</h3>
+        <p>Next-gen GPU built on Blackwell architecture. Crazy fast.</p>
+        <div class="price">₹3,22,211</div>
+        <button class="cart-btn"> <a href="Product1.html">View more</a></button>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="Img/Cpu1.png" alt="Ryzen 9">
+      <div class="info">
+        <h3>AMD Ryzen 9 9000</h3>
+        <p>Zen 5, 16 cores, 32 threads, turbo up to 5.7GHz. Gaming beast.</p>
+        <div class="price">₹71,019</div>
+       <button class="cart-btn"> <a href="Product2.html">View more</a></button>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="Img/4090.png" alt="RTX 4090">
+      <div class="info">
+        <h3>RTX 4090</h3>
+        <p>Ada Lovelace GPU – still crazy powerful & reliable.</p>
+        <div class="price">₹75,000</div>
+         <button class="cart-btn"> <a href="Product3.html">View more</a></button>
+      </div>
+    </div>
+
+<div class="item">
+  <img src="Img/Ram.png" alt="DDR5 RAM">
+  <div class="info">
+    <h3>GSkill Trident Z5 NEO</h3>
+    <p>DDR5 RGB RAM kit, tuned for AMD systems. Looks 🔥.</p>
+    <div class="price">₹24,950</div>
+    <button class="cart-btn">Add to Cart</button>
+  </div>
+</div>
+
+<div class="item">
+  <img src="Img/image-7.png" alt="Redragon K617 Fizz Gaming Keyboard">
+  <div class="info">
+    <h3>Redragon K617 Fizz</h3>
+    <p>60% RGB gaming keyboard. Compact, wired, good for gaming setups.</p>
+    <div class="price">₹2,289</div>
+    <button class="cart-btn">Add to Cart</button>
+  </div>
+</div>
+
+  <div class="item">
+  <img src="Img/Cooler.png" alt="212 CPU cooler">
+  <div class="info">
+    <h3>212 CPU cooler</h3>
+    <p> 4x Direct Contact Pipes, 120mm SickleFlow Fan, LGA1700/AM5
+</p>
+    <div class="price">₹4,198</div>
+    <button class="cart-btn">Add to Cart</button>
+  </div>
+</div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div class="foot-section">
+      <h4>Support</h4>
+      <a href="#">Contact</a>
+      <a href="#">FAQ</a>
+      <a href="#">Shipping</a>
+      <a href="#">Returns</a>
+    </div>
+    <div class="foot-section">
+      <h4>About</h4>
+      <a href="#">Our Story</a>
+      <a href="#">Careers</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="foot-section">
+      <h4>Follow</h4>
+      <a href="#">Twitter</a>
+      <a href="#">Instagram</a>
+      <a href="#">YouTube</a>
+    </div>
+  </div>
+  <div class="copy">&copy; 2025 CompX Store</div>
+</footer>
+
+<script>
+  // simple add-to-cart simulation
+  /*document.querySelectorAll('.cart-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      btn.textContent = "Loading!";
+      btn.style.background="#4caf50";
+      setTimeout(()=>{
+        btn.textContent="Add to Cart";
+        btn.style.background="#e33";
+      }, 1200);
+      // TODO: hook this up with real cart system
+    })
+  })*/
+  
+  function scrollToProducts() {
+    const productsSection = document.querySelector('.products');
+    if (productsSection) {
+      productsSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }
+
+
+  // Signup button functionality
+  function openSignup(url) {
+    window.location.href = "signup.html";
+    // In a real implementation, you would:
+    // 1. Open a modal with a signup form
+    // 2. Redirect to a signup page
+    // 3. Or show a dropdown with login/signup options
+  }
+</script>
+
+</body>
+</html>
