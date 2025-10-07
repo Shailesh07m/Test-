@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTX 4090 - CompX</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #0d0d0d;
+            color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #000;
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: #ff4444;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #ff4444;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 15px 0;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #ff4444;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Product Details */
+        .product-details {
+            display: flex;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .product-gallery {
+            flex: 1;
+        }
+        
+        .main-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid #333;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .thumbnail:hover, .thumbnail.active {
+            opacity: 1;
+            border-color: #ff4444;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .product-subtitle {
+            color: #ff4444;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .product-price {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: #ff4444;
+            margin-bottom: 20px;
+        }
+        
+        .product-description {
+            color: #ccc;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        
+        .specifications {
+            margin-bottom: 30px;
+        }
+        
+        .spec-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .spec-list {
+            list-style: none;
+        }
+        
+        .spec-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+            display: flex;
+        }
+        
+        .spec-name {
+            flex: 1;
+            color: #aaa;
+        }
+        
+        .spec-value {
+            flex: 2;
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .buy-options {
+            background-color: #1a1a1a;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        
+        .buy-now-btn {
+            display: block;
+            width: 100%;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 15px;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .buy-now-btn:hover {
+            background-color: #cc0000;
+        }
+        
+        .add-to-cart-btn {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            color: #ff4444;
+            border: 2px solid #ff4444;
+            padding: 12px;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .add-to-cart-btn:hover {
+            background-color: #ff4444;
+            color: white;
+        }
+        
+        .stock-status {
+            color: #4CAF50;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .stock-status::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            margin-right: 8px;
+        }
+        
+        /* Features Section */
+        .features-section {
+            margin: 60px 0;
+        }
+        
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #fff;
+        }
+        
+        .section-title span {
+            color: #ff4444;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 1px solid #333;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff4444;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #ff4444;
+        }
+        
+        .feature-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .feature-description {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Reviews Section */
+        .reviews-section {
+            margin: 60px 0;
+        }
+        
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .rating-overview {
+            display: flex;
+            align-items: center;
+        }
+        
+        .average-rating {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ff4444;
+            margin-right: 15px;
+        }
+        
+        .rating-stars {
+            color: #ffcc00;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .rating-count {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .review-card {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .reviewer-name {
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .review-date {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .review-rating {
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+        
+        .review-text {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #000;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid #333;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #ff4444;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .product-details {
+                flex-direction: column;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .reviews-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .rating-overview {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="imp.html" class="logo">Comp<span>X</span></a>
+                <nav>
+                    <ul>
+                        <li><a href="imp.html">Home</a></li>
+                        <li><a href="#">Components</a></li>
+                        <li><a href="#">Material</a></li>
+                        <li><a href="#">Deals</a></li>
+                        <li><a href="#">Builds</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; <a href="#">Components</a> &gt; <a href="#">Graphics Cards</a> &gt; RTX 4090
+        </div>
+        
+        <div class="product-details">
+            <div class="product-gallery">
+            <!-- Need to Download and Imgae from other angle to  -->
+
+                <img src="Img/4090.png" alt="RyzenForge RTX 5090" class="main-image" id="main-image">
+                <div class="thumbnail-container">
+                    <img src="Img/4090.png" alt="RTX 5090 Front" class="thumbnail active" onclick="changeImage('Img/4090.png')">
+                    <img src="Img/4090-1.png" alt="RTX 5090 Back" class="thumbnail" onclick="changeImage('Img/4090-1.png')">
+                    <img src="Img/4090-2.png" alt="RTX 5090 Side" class="thumbnail" onclick="changeImage('Img/4090-2.png')">
+                    <img src="Img/4090-3.png" alt="RTX 5090 RGB" class="thumbnail" onclick="changeImage('Img/4090-3.png')">
+                </div>
+            </div>
+            
+            <div class="product-info">
+                <h1 class="product-title">NVIDIA GeForce RTX 4090</h1>
+                <div class="product-subtitle">NVIDIA's Ultimate Gaming GPU</div>
+                <div class="product-price">₹ 75,000</div>
+                
+                <div class="stock-status">In Stock - Ready to Ship</div>
+                
+                <p class="product-description">
+                    The Nvidia GeForce RTX 4090 is a flagship GPU built on Ada Lovelace architecture, offering groundbreaking performance for gaming, AI, and content creation. It features 16,384 CUDA cores, 24 GB of GDDR6X VRAM, and advanced ray tracing with DLSS 3 support for ultra-realistic graphics. Designed for 4K gaming and demanding workloads, it excels in efficiency and AI-driven enhancements. The card’s high power draw (450W TDP) requires robust cooling but delivers unrivaled speed and visuals in modern applications.
+                </p>
+                
+                <div class="specifications">
+                    <h3 class="spec-title">Key Specifications</h3>
+                    <ul class="spec-list">
+                        <li>
+                            <span class="spec-name">Architecture:</span>
+                            <span class="spec-value">Ada Lovlace</span>
+                        </li>
+                        <li>
+                            <span class="spec-name">CUDA Cores:</span>
+                            <span class="spec-value">16,384</span>
+                        </li>
+                        <li>
+                            <span class="spec-name">Boost Clock:</span>
+                            <span class="spec-value">2.52GHz to 2.55GHz </span>
+                           
+                        </li>
+                        <li>
+                            <span class="spec-name">Memory:</span>
+                            <span class="spec-value">24 GB GDDR6X</span>
+                        </li>
+                        <li>
+                            <span class="spec-name">Memory Speed:</span>
+                            <span class="spec-value">21 Gbps</span>
+                        </li>
+                        <li>
+                            <span class="spec-name">Power Consumption:</span>
+                            <span class="spec-value">450W</span>
+                        </li>
+                        <li>
+                            <span class="spec-name">Recommended PSU:</span>
+                            <span class="spec-value">850W</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="buy-options">
+                    <a href="#" class="buy-now-btn" onclick="buyNow()">BUY NOW</a>
+                    <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features-section">
+    <h2 class="section-title">Actual RTX 4090 <span>Features</span></h2>
+    <div class="features-grid">
+
+        <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3 class="feature-title">Ada Lovelace Architecture</h3>
+            <p class="feature-description">The ultra-efficient architecture that powers the card, delivering a massive generational leap in performance and efficiency over Ampere.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">&#x2728;</div>
+<h3 class="feature-title">3rd-Gen Ray Tracing Cores</h3>
+            <p class="feature-description">Dedicated RT Cores that provide up to 2x ray tracing performance for hyper-realistic and fully path-traced game worlds.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🧠</div>
+            <h3 class="feature-title">AI-Powered DLSS 3</h3>
+            <p class="feature-description">Next-generation AI rendering that multiplies frame rates using new Frame Generation technology for unparalleled performance.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">💨</div>
+            <h3 class="feature-title">GDDR6X Memory</h3>
+            <p class="feature-description">24GB of ultra-fast **GDDR6X VRAM** on a 384-bit bus, providing massive capacity and over 1 TB/s of memory bandwidth for 4K and 8K gaming.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">❄️</div>
+            <h3 class="feature-title">Advanced Cooling Design</h3>
+            <p class="feature-description">Massive triple-slot cooling solution with dual axial flow fans and a vapor chamber to maintain optimal thermal performance under a 450W TDP.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">4th-Gen Tensor Cores</h3>
+            <p class="feature-description">Dedicated cores built for AI and machine learning, accelerating features like DLSS 3 and providing up to 4x better AI performance.</p>
+        </div>
+        
+    </div>
+</div>
+        
+        <div class="reviews-section">
+            <div class="reviews-header">
+                <div class="rating-overview">
+                    <div class="average-rating">4.9</div>
+                    <div>
+                        <div class="rating-stars">★★★★★</div>
+                        <div class="rating-count">Based on 127 reviews</div>
+                    </div>
+                </div>
+                <button class="add-to-cart-btn" style="width: auto; padding: 10px 20px;">Write a Review</button>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-name">Sumit Sanap</div>
+                    <div class="review-date">October 15, 2023</div>
+                </div>
+                <div class="review-rating">★★★★</div>
+                <div class="review-text">
+                    Honestly, it's a beast of a card, no question. Everything runs maxed out, and the performance leap over my old 30-series is truly insane. I'm easily pushing 4K/120Hz in even the most demanding titles. Why only four stars? Because the price tag is still a bit oof. It’s amazing, but you definitely pay the early adopter tax. If you've got the cash, go for it, but I still feel like it could be a hair cheaper to be a perfect 5/5.
+                </div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-name">Uday</div>
+                    <div class="review-date">October 10, 2023</div>
+                </div>
+                <div class="review-rating">★★★★</div>
+                <div class="review-text">
+                   For my professional work in Unreal Engine and Blender, the 4090 is truly transformative. The 24GB of VRAM is a massive benefit for handling enormous scene files, and rendering speeds are blazing fast. I took off one star because of the extreme power draw and heat output—it turns my office into a sauna after a few hours of heavy rendering. If you can manage the cooling and the cost, this is the current undisputed king for creative professionals.
+                </div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-name">Mike Rodriguez</div>
+                    <div class="review-date">October 5, 2023</div>
+                </div>
+                <div class="review-rating">★★★★☆</div>
+                <div class="review-text">
+                    Incredible performance, but make sure you have a capable power supply and case. This card is massive and power-hungry. 
+                    Once installed properly, it's a game-changer. DLSS 4 is black magic - getting 4K 120fps in demanding titles.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 CompX. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Image gallery functionality
+        function changeImage(src) {
+            document.getElementById('main-image').src = src;
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // Buy now functionality
+        function buyNow() {
+            alert('Redirecting to checkout for RTX 4090...');
+            // In a real implementation, this would redirect to a checkout page
+        }
+        
+        // Add to cart functionality
+        function addToCart() {
+            const button = event.target;
+            const originalText = button.textContent;
+            
+            button.textContent = 'Added to Cart!';
+            button.style.backgroundColor = '#4CAF50';
+            button.style.borderColor = '#4CAF50';
+            button.style.color = 'white';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = '';
+                button.style.borderColor = '';
+                button.style.color = '';
+            }, 2000);
+            
+            // In a real implementation, this would add the product to a cart
+            console.log('RTX 4090 added to cart');
+        }
+    </script>
+</body>
+</html>
