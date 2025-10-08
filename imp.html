@@ -122,10 +122,12 @@
       font-size:2rem;
     }
     .grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
-      gap:25px;
-    }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  
+
+}
     .item {
       background:#1a1a1a;
       border-radius:6px;
@@ -205,6 +207,13 @@
         padding: 6px 12px;
         font-size: 0.9rem;
       }
+      .grid {
+    grid-template-columns: 1fr;
+  }
+  .item {
+    max-width: 400px;
+    margin: 0 auto;
+  }
     }
   </style>
 </head>
@@ -272,7 +281,7 @@
     <h3>GSkill Trident Z5 NEO</h3>
     <p>DDR5 RGB RAM kit, tuned for AMD systems. Looks 🔥.</p>
     <div class="price">₹24,950</div>
-    <button class="cart-btn">Add to Cart</button>
+<button class="cart-btn"> <a href="Product1.html">View more</a></button>
   </div>
 </div>
 
@@ -362,4 +371,4 @@
 </script>
 
 </body>
-</html>
+</html> 
