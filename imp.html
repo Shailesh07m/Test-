@@ -291,7 +291,7 @@
     <h3>Redragon K617 Fizz</h3>
     <p>60% RGB gaming keyboard. Compact, wired, good for gaming setups.</p>
     <div class="price">₹2,289</div>
-    <button class="cart-btn">Add to Cart</button>
+    <button class="cart-btn" onclick="working()"> <a href="#">View more</a></button>
   </div>
 </div>
 
@@ -302,7 +302,7 @@
     <p> 4x Direct Contact Pipes, 120mm SickleFlow Fan, LGA1700/AM5
 </p>
     <div class="price">₹4,198</div>
-    <button class="cart-btn">Add to Cart</button>
+    <button onclick="working()" class="cart-btn"> <a href="#">View more</a></button>
   </div>
 </div>
 
@@ -359,7 +359,9 @@
     }
   }
 
-
+function working(){
+  window.alert("Work in Progress . will be available soon");
+}
   // Signup button functionality
   function openSignup(url) {
     window.location.href = "signup.html";
