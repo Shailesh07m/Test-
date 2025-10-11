@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - CompX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {margin:0; padding:0; box-sizing:border-box;}
+    body {background:#111; color:#eee; font-family: 'Montserrat', sans-serif;}
+    .wrap {max-width:1200px; margin:auto; padding:0 15px;}
+    
+    header {
+      background:#000; padding:12px 0; border-bottom:1px solid #222;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .head-bar {display:flex; justify-content:space-between; align-items:center;}
+    .brand {font-size:1.8rem; font-weight:700; text-decoration:none; color:#fff;}
+    .brand span {color:#e33;}
+    
+    nav ul {list-style:none; display:flex; align-items:center;}
+    nav li {margin-left:20px;}
+    nav a {text-decoration:none; color:#eee; transition:.2s;}
+    nav a:hover {color:#e33;}
+    
+    .cart-icon {position: relative; color: #eee; font-size: 1.3rem;}
+    .cart-count {
+      position: absolute; top: -8px; right: -8px; background: #e33; color: white;
+      border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem;
+      display: flex; align-items: center; justify-content: center; font-weight: bold;
+    }
+    
+    .cart-container {padding: 40px 0;}
+    .cart-title {text-align: center; margin-bottom: 30px; font-size: 2rem;}
+    .cart-title span {color: #e33;}
+    
+    .cart-items {background: #1a1a1a; border-radius: 8px; padding: 20px; margin-bottom: 30px;}
+    .cart-item {
+      display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #333;
+    }
+    .cart-item:last-child {border-bottom: none;}
+    .item-image {width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin-right: 20px;}
+    .item-details {flex: 1;}
+    .item-name {font-weight: 600; margin-bottom: 5px;}
+    .item-price {color: #e33; font-weight: 700;}
+    .quantity-controls {display: flex; align-items: center; margin: 0 20px;}
+    .quantity-btn {
+      background: #333; color: #eee; border: none; width: 30px; height: 30px;
+      border-radius: 4px; cursor: pointer; font-weight: bold;
+    }
+    .quantity {margin: 0 10px; font-weight: 600;}
+    .remove-btn {background: #e33; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;}
+    
+    .cart-summary {background: #1a1a1a; border-radius: 8px; padding: 25px;}
+    .summary-row {display: flex; justify-content: space-between; margin-bottom: 15px;}
+    .total {font-size: 1.3rem; font-weight: 700; border-top: 1px solid #333; padding-top: 15px;}
+    .total-amount {color: #e33;}
+    .checkout-btn {
+      background: #e33; color: white; border: none; padding: 15px; width: 100%;
+      border-radius: 4px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 20px;
+    }
+    .checkout-btn:hover {background: #b11;}
+    
+    .empty-cart {text-align: center; padding: 60px 0;}
+    .empty-cart i {font-size: 4rem; color: #666; margin-bottom: 20px;}
+    .empty-cart h2 {margin-bottom: 15px;}
+    .empty-cart p {color: #aaa; margin-bottom: 25px;}
+    .continue-shopping {background: #e33; color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px;}
+    
+    @media (max-width: 768px) {
+      .cart-item {flex-direction: column; align-items: flex-start;}
+      .item-image {margin-bottom: 15px;}
+      .quantity-controls {margin: 15px 0;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap head-bar">
+      <a href="index.html" class="brand">Comp<span>X</span></a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#">Components</a></li>
+          <li><a href="index.html">Back to Shop</a></li>
+          <li>
+            <a href="cart.html" class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count" id="cartCount">0</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap cart-container">
+    <h1 class="cart-title">Your <span>Shopping Cart</span></h1>
+    
+    <div id="cartContent">
+      <!-- Cart content will be loaded by JavaScript -->
+    </div>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('compXCart')) || [];
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCartDisplay();
+      updateCartCount();
+    });
+    
+    function updateCartCount() {
+      const cartCount = document.getElementById('cartCount');
+      const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+      cartCount.textContent = totalItems;
+    }
+    
+    function updateCartDisplay() {
+      const cartContent = document.getElementById('cartContent');
+      
+      if (cart.length === 0) {
+        cartContent.innerHTML = `
+          <div class="empty-cart">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>Your cart is empty</h2>
+            <p>Add some products to your cart to see them here</p>
+            <a href="index.html" class="continue-shopping">Continue Shopping</a>
+          </div>
+        `;
+        return;
+      }
+      
+      let itemsHTML = '';
+      let subtotal = 0;
+      
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+        
+        itemsHTML += `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}" class="item-image">
+            <div class="item-details">
+              <div class="item-name">${item.name}</div>
+              <div class="item-price">₹${item.price.toLocaleString()}</div>
+            </div>
+            <div class="quantity-controls">
+              <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+              <span class="quantity">${item.quantity}</span>
+              <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+            </div>
+            <div class="item-total">₹${itemTotal.toLocaleString()}</div>
+            <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+          </div>
+        `;
+      });
+      
+      const tax = subtotal * 0.18; // 18% tax
+      const total = subtotal + tax;
+      
+      cartContent.innerHTML = `
+        <div class="cart-items">
+          ${itemsHTML}
+        </div>
+        <div class="cart-summary">
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span>₹${subtotal.toLocaleString()}</span>
+          </div>
+          <div class="summary-row">
+            <span>Tax (18%):</span>
+            <span>₹${tax.toLocaleString()}</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total:</span>
+            <span class="total-amount">₹${total.toLocaleString()}</span>
+          </div>
+          <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+      `;
+    }
+    
+    function updateQuantity(index, change) {
+      cart[index].quantity += change;
+      
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      
+      localStorage.setItem('compXCart', JSON.stringify(cart));
+      updateCartDisplay();
+      updateCartCount();
+    }
+    
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('compXCart', JSON.stringify(cart));
+      updateCartDisplay();
+      updateCartCount();
+    }
+    
+    function checkout() {
+      alert('Proceeding to checkout! In a real implementation, this would redirect to a checkout page.');
+    }
+  </script>
+</body>
+</html>
