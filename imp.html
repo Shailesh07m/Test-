@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CompNex Store</title>
+  <title>CompX Store</title>
 
-  <!-- fonts (only keeping one main, will add more if needed later) -->
+  <!-- fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for cart icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     /* quick reset */
@@ -30,6 +32,9 @@
       background:#000;
       padding:12px 0;
       border-bottom:1px solid #222;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     .head-bar {
       display:flex;
@@ -56,6 +61,35 @@
       transition:.2s;
     }
     nav a:hover {color:#e33;}
+
+    /* Cart Icon */
+    .cart-icon {
+      position: relative;
+      color: #eee;
+      font-size: 1.3rem;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .cart-icon:hover {
+      color: #e33;
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #e33;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
 
     /* Signup Button */
     .signup-btn {
@@ -121,13 +155,16 @@
       margin-bottom:30px;
       font-size:2rem;
     }
+    
+    /* Grid Layout */
     .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-  
-
-}
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      justify-content: center;
+      padding: 20px 0;
+    }
+    
     .item {
       background:#1a1a1a;
       border-radius:6px;
@@ -154,6 +191,9 @@
       width:100%;
       border-radius:4px;
       cursor:pointer;
+      transition: background 0.3s;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
     }
     .cart-btn:hover {background:#b11;}
 
@@ -191,8 +231,37 @@
       text-decoration: none;
     }
 
-    /* smaller screens */
-    @media (max-width:768px){
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #4CAF50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsive Design */
+    /* Tablet */
+    @media (max-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    /* Mobile */
+    @media (max-width: 768px){
       .hero-text {margin-left:15px; text-align:center;}
       .hero-text h1 {font-size:2.4rem;}
       nav ul {
@@ -207,13 +276,32 @@
         padding: 6px 12px;
         font-size: 0.9rem;
       }
+      
+      /* Mobile grid - 1 product per row */
       .grid {
-    grid-template-columns: 1fr;
-  }
-  .item {
-    max-width: 400px;
-    margin: 0 auto;
-  }
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .item {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+    }
+    
+    /* Small Mobile */
+    @media (max-width: 480px) {
+      .hero {
+        height: 400px;
+      }
+      
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+      
+      .products h2 {
+        font-size: 1.6rem;
+      }
     }
   </style>
 </head>
@@ -221,13 +309,19 @@
 
 <header>
   <div class="wrap head-bar">
-    <a href="#" class="brand">Comp<span>Nex</span></a>
+    <a href="#" class="brand">Comp<span>X</span></a>
     <nav>
       <ul>
         <li><a href="#">Components</a></li>
         <li><a href="#">Deals</a></li>
         <li><a href="#">Builds</a></li>
         <li><a href="#">Support</a></li>
+        <li>
+          <a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+        </li>
         <li><button class="signup-btn" onclick="openSignup()">Sign Up</button></li>
       </ul>
     </nav>
@@ -251,7 +345,7 @@
         <h3>NVIDIA RTX 5090</h3>
         <p>Next-gen GPU built on Blackwell architecture. Crazy fast.</p>
         <div class="price">₹3,22,211</div>
-        <button class="cart-btn"> <a href="Product1.html">View more</a></button>
+        <button class="cart-btn" onclick="addToCart('NVIDIA RTX 5090', 322211, 'Img/5090.png')">Add to Cart</button>
       </div>
     </div>
 
@@ -261,7 +355,7 @@
         <h3>AMD Ryzen 9 9000</h3>
         <p>Zen 5, 16 cores, 32 threads, turbo up to 5.7GHz. Gaming beast.</p>
         <div class="price">₹71,019</div>
-       <button class="cart-btn"> <a href="Product2.html">View more</a></button>
+        <button class="cart-btn" onclick="addToCart('AMD Ryzen 9 9000', 71019, 'Img/Cpu1.png')">Add to Cart</button>
       </div>
     </div>
 
@@ -271,41 +365,38 @@
         <h3>RTX 4090</h3>
         <p>Ada Lovelace GPU – still crazy powerful & reliable.</p>
         <div class="price">₹75,000</div>
-         <button class="cart-btn"> <a href="Product3.html">View more</a></button>
+        <button class="cart-btn" onclick="addToCart('RTX 4090', 75000, 'Img/4090.png')">Add to Cart</button>
       </div>
     </div>
 
-<div class="item">
-  <img src="Img/Ram.png" alt="DDR5 RAM">
-  <div class="info">
-    <h3>GSkill Trident Z5 NEO</h3>
-    <p>DDR5 RGB RAM kit, tuned for AMD systems. Looks 🔥.</p>
-    <div class="price">₹24,950</div>
-<button class="cart-btn"> <a href="Product1.html">View more</a></button>
-  </div>
-</div>
+    <div class="item">
+      <img src="Img/Ram.png" alt="DDR5 RAM">
+      <div class="info">
+        <h3>GSkill Trident Z5 NEO</h3>
+        <p>DDR5 RGB RAM kit, tuned for AMD systems. Looks 🔥.</p>
+        <div class="price">₹24,950</div>
+        <button class="cart-btn" onclick="addToCart('GSkill Trident Z5 NEO', 24950, 'Img/Ram.png')">Add to Cart</button>
+      </div>
+    </div>
 
-<div class="item">
-  <img src="Img/image-7.png" alt="Redragon K617 Fizz Gaming Keyboard">
-  <div class="info">
-    <h3>Redragon K617 Fizz</h3>
-    <p>60% RGB gaming keyboard. Compact, wired, good for gaming setups.</p>
-    <div class="price">₹2,289</div>
-    <button class="cart-btn" onclick="working()"> <a href="#">View more</a></button>
-  </div>
-</div>
+    <div class="item">
+      <img src="Img/image-7.png" alt="Redragon K617 Fizz Gaming Keyboard">
+      <div class="info">
+        <h3>Redragon K617 Fizz</h3>
+        <p>60% RGB gaming keyboard. Compact, wired, good for gaming setups.</p>
+        <div class="price">₹2,289</div>
+        <button class="cart-btn" onclick="addToCart('Redragon K617 Fizz', 2289, 'Img/image-7.png')">Add to Cart</button>
+      </div>
+    </div>
 
-  <div class="item">
-  <img src="Img/Cooler.png" alt="212 CPU cooler">
-  <div class="info">
-    <h3>212 CPU cooler</h3>
-    <p> 4x Direct Contact Pipes, 120mm SickleFlow Fan, LGA1700/AM5
-</p>
-    <div class="price">₹4,198</div>
-    <button onclick="working()" class="cart-btn"> <a href="#">View more</a></button>
-  </div>
-</div>
-
+    <div class="item">
+      <img src="Img/Cooler.png" alt="212 CPU cooler">
+      <div class="info">
+        <h3>212 CPU cooler</h3>
+        <p>4x Direct Contact Pipes, 120mm SickleFlow Fan, LGA1700/AM5</p>
+        <div class="price">₹4,198</div>
+        <button class="cart-btn" onclick="addToCart('212 CPU Cooler', 4198, 'Img/Cooler.png')">Add to Cart</button>
+      </div>
     </div>
   </div>
 </section>
@@ -332,22 +423,72 @@
       <a href="#">YouTube</a>
     </div>
   </div>
-  <div class="copy">&copy; 2025 CompNex Store</div>
+  <div class="copy">&copy; 2025 CompX Store</div>
 </footer>
 
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
 <script>
-  // simple add-to-cart simulation
-  /*document.querySelectorAll('.cart-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      btn.textContent = "Loading!";
-      btn.style.background="#4caf50";
-      setTimeout(()=>{
-        btn.textContent="Add to Cart";
-        btn.style.background="#e33";
-      }, 1200);
-      // TODO: hook this up with real cart system
-    })
-  })*/
+  // Cart functionality
+  let cart = JSON.parse(localStorage.getItem('compXCart')) || [];
+  
+  // Update cart count on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    updateCartCount();
+  });
+  
+  function updateCartCount() {
+    const cartCount = document.getElementById('cartCount');
+    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    cartCount.textContent = totalItems;
+  }
+  
+  function addToCart(name, price, image) {
+    // Check if item already exists in cart
+    const existingItem = cart.find(item => item.name === name);
+    
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({
+        name: name,
+        price: price,
+        image: image,
+        quantity: 1
+      });
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('compXCart', JSON.stringify(cart));
+    
+    // Update cart count
+    updateCartCount();
+    
+    // Show toast notification
+    showToast(`${name} added to cart!`);
+    
+    // Visual feedback on button
+    const button = event.target;
+    const originalText = button.textContent;
+    button.textContent = 'Added!';
+    button.style.background = "#4caf50";
+    
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.style.background = "#e33";
+    }, 1500);
+  }
+  
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
   
   function scrollToProducts() {
     const productsSection = document.querySelector('.products');
@@ -359,18 +500,11 @@
     }
   }
 
-function working(){
-  window.alert("Work in Progress . will be available soon");
-}
   // Signup button functionality
-  function openSignup(url) {
-    window.location.href = "signup.html";
-    // In a real implementation, you would:
-    // 1. Open a modal with a signup form
-    // 2. Redirect to a signup page
-    // 3. Or show a dropdown with login/signup options
+  function openSignup() {
+    alert("Sign up form would open here!\n\nIn a real implementation, this would open a modal or redirect to a signup page.");
   }
 </script>
 
 </body>
-</html> 
+</html>
